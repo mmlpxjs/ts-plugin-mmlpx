@@ -1,0 +1,90 @@
+/**
+ * @author Kuitos
+ * @homepage https://github.com/kuitos/
+ * @since 2018-06-21 16:00
+ */
+import ts from 'typescript';
+
+type Options = {
+	libraryName?: string;
+	bindings?: string[];
+};
+
+type BindingsMap = {
+	[p: string]: string[];
+};
+
+const defaultOptions = {
+	libraryName: 'mmlpx',
+	bindings: ['Store', 'ViewModel'],
+};
+
+const createTransformer = (_options: Partial<Options> | Array<Partial<Options>> = defaultOptions) => {
+
+	const mergeDefault = (options: Partial<Options>) => ({ ...defaultOptions, ...options });
+	const bindingsMap: BindingsMap = Array.isArray(_options)
+		? _options.reduce((acc: any, options) => {
+			const result = mergeDefault(options);
+			acc[result.libraryName] = result.bindings;
+			return acc;
+		}, {})
+		: { [mergeDefault(_options).libraryName]: mergeDefault(_options).bindings };
+
+	const isTargetLib = (lib: string) => Object.keys(bindingsMap).indexOf(lib) !== -1;
+	const isTargetBinding = (lib: string, binding: string) => bindingsMap[lib].indexOf(binding) !== -1;
+
+	const transformer: ts.TransformerFactory<ts.SourceFile> = context => {
+
+		const bindings: string[] = [];
+		let fileName: string;
+
+		const visitor: ts.Visitor = node => {
+
+			if (ts.isSourceFile(node)) {
+				fileName = node.fileName;
+			}
+
+			if (ts.isImportDeclaration(node) && isTargetLib((node.moduleSpecifier as ts.StringLiteral).text)) {
+
+				node.forEachChild(importChild => {
+
+					if (ts.isImportClause(importChild) && importChild.namedBindings && ts.isNamedImports(importChild.namedBindings)) {
+
+						(importChild.namedBindings as ts.NamedImports).elements.forEach(({ propertyName, name }) => {
+
+							const lib = (node.moduleSpecifier as ts.StringLiteral).text;
+							const binding = (propertyName && propertyName.getText()) || name.getText();
+							if (isTargetBinding(lib, binding)) {
+								bindings.push(binding);
+							}
+						});
+					}
+				});
+
+				return node;
+			}
+
+			if (node.decorators) {
+
+				node.decorators.forEach(decorator => {
+
+					const { expression } = decorator;
+					if (ts.isIdentifier(expression) && bindings.indexOf(expression.getText()) !== -1) {
+						decorator.expression = ts.createCall(expression, undefined,
+							[ts.createLiteral(`${fileName}/${(node as any).name.getText()}`)]);
+					}
+				});
+
+				return node;
+			}
+
+			return ts.visitEachChild(node, visitor, context);
+		};
+
+		return node => ts.visitNode(node, visitor);
+	};
+
+	return transformer;
+};
+
+export default createTransformer;
