@@ -11,7 +11,7 @@ input
 import { Store } from 'mmlpx';
 
 @Store
-export default class Store {
+export default class UserStore {
 }
 ```
 
@@ -19,8 +19,8 @@ output
 ```ts
 import { Store } from 'mmlpx';
 
-@Store('${filePath}/Store')
-export default class Store {
+@Store('${filePath}/UserStore')
+export default class UserStore {
 }
 ```
 
