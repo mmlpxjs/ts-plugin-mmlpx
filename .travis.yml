@@ -12,8 +12,8 @@ after_success:
 
 before_deploy:
   - npm run build
-  - cp {package.json,README.md,LICENSE} lib
-  - cd lib
+  - cp {package.json,README.md,LICENSE} dist
+  - cd dist
 deploy:
   provider: npm
   email: kuitos.lau@gmail.com

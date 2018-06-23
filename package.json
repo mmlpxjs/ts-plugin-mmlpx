@@ -4,8 +4,10 @@
   "description": "ts plugin for mmlpx",
   "scripts": {
     "test": "jest",
+    "test-cover": "jest --coverage",
     "build": "tsc",
-    "lint": "tslint 'src/**/*.ts' && npm test",
+    "lint": "tslint 'src/**/*.ts' && npm run test-cover",
+    "codecov": "codecov",
     "prepush": "npm run lint"
   },
   "repository": {
@@ -29,10 +31,9 @@
   "devDependencies": {
     "@types/jest": "^23.1.1",
     "@types/node": "^10.3.4",
+    "codecov": "^3.0.2",
     "husky": "^0.14.3",
     "jest": "^23.1.0",
-    "mmlpx": "^3.0.0",
-    "mobx": "^5.0.3",
     "tiny-glob": "^0.2.1",
     "ts-jest": "^22.4.6",
     "tslint": "^5.10.0",
@@ -49,6 +50,11 @@
     ],
     "transform": {
       "^.+\\.ts$": "<rootDir>/node_modules/ts-jest"
-    }
+    },
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/__tests__/",
+      "/dist/"
+    ]
   }
 }
