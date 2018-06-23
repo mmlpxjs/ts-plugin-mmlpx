@@ -1,6 +1,6 @@
 {
   "name": "ts-plugin-mmlpx",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "ts plugin for mmlpx",
   "scripts": {
     "test": "jest",
