@@ -19,16 +19,14 @@ const defaultOptions = {
 	bindings: ['Store', 'ViewModel'],
 };
 
-const createTransformer = (_options: Partial<Options> | Array<Partial<Options>> = defaultOptions) => {
+const createTransformer = (_options: Array<Partial<Options>> = [defaultOptions]) => {
 
 	const mergeDefault = (options: Partial<Options>) => ({ ...defaultOptions, ...options });
-	const bindingsMap: BindingsMap = Array.isArray(_options)
-		? _options.reduce((acc: any, options) => {
-			const result = mergeDefault(options);
-			acc[result.libraryName] = result.bindings;
-			return acc;
-		}, {})
-		: { [mergeDefault(_options).libraryName]: mergeDefault(_options).bindings };
+	const bindingsMap: BindingsMap = _options.reduce((acc: any, options) => {
+		const result = mergeDefault(options);
+		acc[result.libraryName] = result.bindings;
+		return acc;
+	}, {});
 
 	const isTargetLib = (lib: string) => Object.keys(bindingsMap).indexOf(lib) !== -1;
 	const isTargetBinding = (lib: string, binding: string) => bindingsMap[lib].indexOf(binding) !== -1;
@@ -53,9 +51,10 @@ const createTransformer = (_options: Partial<Options> | Array<Partial<Options>> 
 						(importChild.namedBindings as ts.NamedImports).elements.forEach(({ propertyName, name }) => {
 
 							const lib = (node.moduleSpecifier as ts.StringLiteral).text;
-							const binding = (propertyName && propertyName.getText()) || name.getText();
-							if (isTargetBinding(lib, binding)) {
-								bindings.push(binding);
+							const namedBinding = (propertyName && propertyName.getText()) || name.getText();
+							const aliasBinding = propertyName && name.getText();
+							if (isTargetBinding(lib, namedBinding)) {
+								bindings.push(aliasBinding || namedBinding);
 							}
 						});
 					}
