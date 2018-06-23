@@ -1,7 +1,7 @@
-import { Store, ViewModel as ViewModelAlias } from 'mmlpx';
+import { Store, Store as StoreAlias } from 'mmlpx';
 @Store("mmlpx-store/input.ts/UserStore")
 export default class UserStore {
 }
-@ViewModelAlias("mmlpx-store/input.ts/UserViewModel")
-export default class UserViewModel {
+@StoreAlias("mmlpx-store/input.ts/UserStoreAlias")
+export default class UserStoreAlias {
 }

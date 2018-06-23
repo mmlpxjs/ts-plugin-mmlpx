@@ -1,9 +1,9 @@
-import { Store, ViewModel as ViewModelAlias } from 'mmlpx';
+import { Store, Store as StoreAlias } from 'mmlpx';
 
 @Store
 export default class UserStore {
 }
 
-@ViewModelAlias
-export default class UserViewModel {
+@StoreAlias
+export default class UserStoreAlias {
 }
