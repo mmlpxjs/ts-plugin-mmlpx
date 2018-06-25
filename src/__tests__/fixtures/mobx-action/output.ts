@@ -1,5 +1,8 @@
+import * as tslib_1 from "tslib";
 import { action } from 'mobx';
 class Model {
-    @action("mobx-action/input.ts/method")
     method() { }
 }
+tslib_1.__decorate([
+    action("input.ts/method")
+], Model.prototype, "method", null);

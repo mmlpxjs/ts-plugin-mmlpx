@@ -1,7 +1,14 @@
+import * as tslib_1 from "tslib";
 import { Store, Store as StoreAlias } from 'mmlpx';
-@Store("mmlpx-store/input.ts/UserStore")
-export default class UserStore {
-}
-@StoreAlias("mmlpx-store/input.ts/UserStoreAlias")
-export default class UserStoreAlias {
-}
+let UserStore = class UserStore {
+};
+UserStore = tslib_1.__decorate([
+    Store("input.ts/UserStore")
+], UserStore);
+export { UserStore };
+let UserStoreAlias = class UserStoreAlias {
+};
+UserStoreAlias = tslib_1.__decorate([
+    StoreAlias("input.ts/UserStoreAlias")
+], UserStoreAlias);
+export { UserStoreAlias };

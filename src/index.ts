@@ -3,6 +3,7 @@
  * @homepage https://github.com/kuitos/
  * @since 2018-06-21 16:00
  */
+import * as path from 'path';
 import ts from 'typescript';
 
 type Options = {
@@ -39,7 +40,8 @@ const createTransformer = (_options: Array<Partial<Options>> = [defaultOptions])
 		const visitor: ts.Visitor = node => {
 
 			if (ts.isSourceFile(node)) {
-				fileName = node.fileName;
+				fileName = path.basename(node.fileName);
+				return ts.visitEachChild(node, visitor, context);
 			}
 
 			if (ts.isImportDeclaration(node) && isTargetLib((node.moduleSpecifier as ts.StringLiteral).text)) {

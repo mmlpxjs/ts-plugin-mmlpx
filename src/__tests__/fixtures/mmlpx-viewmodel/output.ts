@@ -1,4 +1,8 @@
+import * as tslib_1 from "tslib";
 import { ViewModel } from 'mmlpx';
-@ViewModel("mmlpx-viewmodel/input.ts/VM")
-export default class VM {
-}
+let VM = class VM {
+};
+VM = tslib_1.__decorate([
+    ViewModel("input.ts/VM")
+], VM);
+export default VM;

@@ -1,9 +1,9 @@
 import { Store, Store as StoreAlias } from 'mmlpx';
 
 @Store
-export default class UserStore {
+export class UserStore {
 }
 
 @StoreAlias
-export default class UserStoreAlias {
+export class UserStoreAlias {
 }

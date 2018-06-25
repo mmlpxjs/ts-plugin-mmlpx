@@ -13,7 +13,6 @@ import { promisify } from 'util';
 import createTransformer from '../index';
 
 const readFilePromise: (path: string, encoding: string) => Promise<string> = promisify(readFile);
-const printer = ts.createPrinter();
 const testDir = join(__dirname, 'fixtures');
 const testFiles = glob('*/input.ts', { cwd: testDir, filesOnly: true });
 const transformer = createTransformer([
@@ -29,10 +28,12 @@ testFiles.forEach(fileName => {
 			readFilePromise(filePath, 'utf-8'),
 			readFilePromise(filePath.replace('input.ts', 'output.ts'), 'utf-8'),
 		]);
-		const sourceFile = ts.createSourceFile(fileName, sourceCode, ts.ScriptTarget.ES2016, true);
-		const transformedSourceFile = ts.transform(sourceFile, [transformer]).transformed[0];
-		const transformedSourceCode = printer.printFile(transformedSourceFile);
+		const transpileOutput = ts.transpileModule(sourceCode, {
+			fileName: filePath,
+			compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2016, importHelpers: true, rootDir: './src/__tests__' },
+			transformers: { before: [transformer] },
+		});
 
-		expect(transformedSourceCode).toBe(expectCode);
+		expect(transpileOutput.outputText).toBe(expectCode);
 	});
 });
