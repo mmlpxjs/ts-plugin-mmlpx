@@ -84,4 +84,4 @@ type Options = {
 
 As we use `${fileName}/${decoratedClassName}` as the id of Store/ViewModel, we should name our Store/ViewModel and file name more descriptive, such as UserStore.ts/UserStore.
 
-Avoid naming file name as index.ts, Store/ViewModel as Index class.
+Avoid naming file name as index.ts and Store/ViewModel as Index class, keep then unique.
