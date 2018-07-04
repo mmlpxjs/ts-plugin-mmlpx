@@ -3,7 +3,7 @@
  * @homepage https://github.com/kuitos/
  * @since 2018-06-21 16:00
  */
-import * as path from 'path';
+import path from 'path';
 import ts from 'typescript';
 
 type Options = {
