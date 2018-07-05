@@ -5,7 +5,7 @@
 [![npm downloads](https://img.shields.io/npm/dt/ts-plugin-mmlpx.svg?style=flat-square)](https://www.npmjs.com/package/ts-plugin-mmlpx)
 [![Build Status](https://img.shields.io/travis/mmlpxjs/ts-plugin-mmlpx.svg?style=flat-square)](https://travis-ci.org/mmlpxjs/ts-plugin-mmlpx)
 
-Generate mmlpx ViewModel/Store name automatically, suitable for mobx actions as well. 
+Generate mmlpx `Store` name automatically, suitable for mobx actions as well. 
 Compatible with ts-loader(^2.2.0) and awesome-typescript-loader(^3.1.3).
 
 ## Transpilation
