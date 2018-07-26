@@ -10,21 +10,36 @@ Compatible with ts-loader(^2.2.0) and awesome-typescript-loader(^3.1.3).
 
 ## Transpilation
 
-input
+### input
 ```ts
+import { action } from 'mobx';
 import { Store } from 'mmlpx';
 
 @Store
 export default class UserStore {
+  @action updateUser() {}
 }
 ```
 
-output
+### output
 ```ts
+import { action } from 'mobx';
 import { Store } from 'mmlpx';
 
 @Store('${filePath}/UserStore')
 export default class UserStore {
+  @action updateUser() {}
+}
+```
+
+If we had configured mobx action transpilation, the action name would be generated automatically.
+```ts
+import { action } from 'mobx';
+import { Store } from 'mmlpx';
+
+@Store('${filePath}/UserStore')
+export default class UserStore {
+  @action('UserStore/updateUser') updateUser() {}
 }
 ```
 
